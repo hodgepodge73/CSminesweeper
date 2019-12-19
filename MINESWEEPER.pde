@@ -42,6 +42,9 @@ void mouseClicked(){
         clear(i, j);
       }
     }
+    else {
+    exit();
+    }
     System.out.print(i +" "+ j);
     grid[i][j].clicked=true;
   }    
