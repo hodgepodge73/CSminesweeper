@@ -1,8 +1,10 @@
 class grid {
   PVector reallocation, gridlocation;
   int fill;
-
-  boolean flagged, bomb;
+  boolean revealed = false, flagged, bomb;
+  boolean checked = false;
+  boolean clicked = false, cleared = false, isempty=false;
+  
   int bombcount;
   grid() {
     flagged = false;
@@ -10,7 +12,13 @@ class grid {
   }
 
   void show() {
-    fill(fill);
+    fill(0);
+    if (clicked && flagmode == false){
+      fill(fill);
+    }
+    if (isempty){
+      //fill(255, 255,100);
+    }
     square(reallocation.x, reallocation.y, 64);
     fill(0);
     if (this.bombcount != 0)
@@ -44,20 +52,31 @@ class empty extends grid {
   void count () {
     this.bombcount = 0;
     for ( int j = 0; j <3; j++)
-      for (int i = 0; i < 3; i++)
-        //if (gridlocation.x > 0 && gridlocation.y > 0 && gridlocation.x < grid.length -1 && gridlocation.y < grid.length - 1)
-        if (grid[constrain(int(gridlocation.x + constrain(i - 1, -1, 1)), 0, 9)][constrain(int(gridlocation.y + constrain(j -1, -1, 1)), 0, 9)].bomb)
-          if (gridlocation.x + constrain(i - 1, -1, 1) != -1 && gridlocation.x + constrain(i - 1, -1, 1) != 10)
-            if (gridlocation.y + constrain(j - 1, -1, 1) != -1 && gridlocation.y + constrain(j - 1, -1, 1) != 10)
+      for (int i = 0; i < 3; i++)        
+        if (grid[constrain(int(gridlocation.x + i - 1), 0, 9)][constrain(int(gridlocation.y + j -1), 0, 9)].bomb)
+          if (gridlocation.x + i - 1 != -1 && gridlocation.x + i - 1 != 10)
+            if (gridlocation.y + j - 1 != -1 && gridlocation.y + j - 1 != 10)
               this.bombcount++;
   }
 }
 
 
 void bombgenerate() {
+  
   PVector random = new PVector((int)random(grid.length), (int)random(grid.length));
-  if (!grid[(int)random.x][(int)random.y].bomb)
-    grid[(int)random.x][(int)random.y] = new bomb(random.x, random.y);
+  if (!grid[(int)random.x][(int)random.y].bomb && !grid[(int)random.x][(int)random.y].isempty)
+    if (canputbomb(int(random.x), int(random.y))){
+      grid[(int)random.x][(int)random.y] = new bomb(random.x, random.y);
+    }          
   else
     bombgenerate();
+}
+boolean canputbomb(int x, int y){
+  boolean can = true;
+  for (int i =0; i <3; i++)
+    for (int j = 0; j<3; j++)
+      if (grid[constrain(x-1+i, 0, 9)][constrain(y-1+j, 0, 9)].isempty || grid[x][y].isempty){
+        can = false;
+      }
+  return can;
 }
