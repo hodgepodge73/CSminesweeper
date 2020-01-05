@@ -9,40 +9,25 @@ void setup() {
   noFill();
   textAlign(CENTER, CENTER);
   textSize(48);
-
-
-  for (int i = 0; i < grid.length; i++)
-    for (int j = 0; j < grid.length; j++)
-      grid[i][j] = new empty(i, j);
-
-  for (int i = 0; i < grid.length; i++)
-    for (int j = 0; j < grid.length; j++)
-      grid[i][j].count();
+  thread("load");
 }
 
 void draw() {
   background(155);
+  if (loaded) {
+    rectMode(CORNER);
+    stroke(0);
+    for (int i = 0; i < grid.length; i++)
+      for (int j = 0; j < grid.length; j++)
+        grid[i][j].show();
 
-  for (int i = 0; i < grid.length; i++)
-    for (int j = 0; j < grid.length; j++) {
-      grid[i][j].show();
+    fill(255);
+    text("UI SPACE", width/4, 20);
+    GUI[0].control();
+    GUI[0].show();
+    if (gameoverboo == true) {
+      gameover();
     }
-
-  fill(255);
-  text("UI SPACE", width/4, 20);
-  text("FLAG", (width/4)* 3, 20);
-  if (mouseX > ((width/4)* 3)- 48 && mouseX < ((width/4)* 3)+ 48 && mouseY > 2 && mouseY < 30) {    //work on this, both are  triggiring at the same  time
-    if (mousePressed && flagmode == false) {
-      text("test123 -> true", width/2, height/2);
-      flagmode = true;
-    }
-    if (mousePressed && flagmode == true) {
-      text("test123 -> false", width/2, height/2);
-      flagmode = false;
-    }
-  }
-  if (gameoverboo == true) {
-    gameover();
   }
 }
 
@@ -59,7 +44,7 @@ void mouseClicked() {
       if (grid[i][j].bombcount == 0 && flagmode == false) {
         clear(i, j);
       }
-    } else if (flagmode == false) {
+    } else if (!flagmode) {
       gameoverboo = true;
     }
     System.out.print(i +" "+ j);
