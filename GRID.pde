@@ -12,7 +12,7 @@ class grid {
   }
 
   void show() {
-    fill(0);
+    fill(255);
     if (clicked && flagmode == false){
       fill(fill);
     }
