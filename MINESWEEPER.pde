@@ -37,6 +37,9 @@ void mouseClicked() {
   if (mouseY>=50) {
     int i = int(map(mouseX, 0, width, 0, grid.length));
     int j = int(map(mouseY, 50, height, 0, grid.length));
+    if (flagmode){
+      grid[i][j].flagged = true;
+    }
     if (!grid[i][j].bomb) {
       if (firstclick) {
         firstcli(i, j);
@@ -47,6 +50,7 @@ void mouseClicked() {
     } else if (!flagmode) {
       gameoverboo = true;
     }
+    
     System.out.print(i +" "+ j);
     grid[i][j].clicked=true;
   }
