@@ -60,9 +60,9 @@ void draw() {
     fill(255);
     textSize(12);
     if ((time/60)%60<10) {
-      text("Time: " + time/3600 + ":0" + (time/60)%60, 330, 40);
+      text("Time: " + timefinal/3600 + ":0" + (timefinal/60)%60, 330, 40);
     } else {
-      text("Time: " + time/3600 + ":" + (time/60)%60, 330, 40);
+      text("Time: " + timefinal/3600 + ":" + (timefinal/60)%60, 330, 40);
     }
     textSize(48);
     GUI[0].control();
@@ -80,8 +80,8 @@ void mouseClicked() {
   if (mouseY>=50) {
     int i = int(map(mouseX, 0, width, 0, grid.length));
     int j = int(map(mouseY, 50, height, 0, grid.length));
-    if (flagmode) {
-      grid[i][j].flagged = true;
+    if (flagmode && !grid[i][j].clicked) {
+      grid[i][j].flagged = !grid[i][j].flagged;
     } else {
       if (!grid[i][j].bomb) {
         if (firstclick) {
@@ -90,13 +90,14 @@ void mouseClicked() {
         if (grid[i][j].bombcount == 0 && flagmode == false) {
           clear(i, j);
         }
-      } else if (!flagmode) {
+      } else if (!flagmode && !gameoverboo) {
         gameoverboo = true;
         time  = timefinal;
       }
+      System.out.print(i +" "+ j);
+      grid[i][j].clicked=true;
     }
-    System.out.print(i +" "+ j);
-    grid[i][j].clicked=true;
+    
   }
 }
 
@@ -176,7 +177,7 @@ void gameover() {
     }
   }
 
-  if (mouseX > ((width/4)*3)-48 && mouseX < ((width/4)*3)+48 && mouseY > ((height/2)-10)-24 && mouseY < ((height/2)-10)+24) {
+  if (mouseX > ((width/4)*3)-48 && mouseX < ((width/4)*3)+48 && mouseY > ((height/4)-10)-24 && mouseY < ((height/4)-10)+24) {
     fill(155); 
     if (mousePressed) {
       restart();
@@ -270,4 +271,5 @@ boolean wincheck() {
 }
 
 void wingame () {
+  saveSortedData();
 }
