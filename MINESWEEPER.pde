@@ -5,6 +5,7 @@ boolean flagmode = false;
 int time = 0; 
 int timefinal;
 
+//Ethan
 String uname="";  //user's name starts blank
 boolean entered=false; //if the username has been entered
 int charCount=0; //make user enter 3 characters for name stores length
@@ -15,10 +16,11 @@ int [] times; //variable to store the scores of the data for the sort
 
 
 void setup() {
+  //Ethan
   String [] data = loadStrings("scores.txt"); //puts the txt data into the data array
   temp = new String[data.length]; // sets the temp array to the length of the data array
 
-
+  //
   size(642, 692);  
   strokeWeight(2);
   stroke(0);
@@ -26,7 +28,7 @@ void setup() {
   textAlign(CENTER, CENTER);
   textSize(48);
   thread("load");
-
+  //Ethan
   //initialize the size of the name and score arrays
   names = new String[data.length/2];
   times = new int[data.length/2];
@@ -40,6 +42,7 @@ void setup() {
     times[b]=int(data[a]);
     b++;
   }
+  sort();
 }
 
 void draw() {
@@ -59,7 +62,7 @@ void draw() {
     text("UI SPACE", width/4, 20);
     fill(255);
     textSize(12);
-    if ((time/60)%60<10) {
+    if ((timefinal/60)%60<10) {
       text("Time: " + timefinal/3600 + ":0" + (timefinal/60)%60, 330, 40);
     } else {
       text("Time: " + timefinal/3600 + ":" + (timefinal/60)%60, 330, 40);
@@ -77,52 +80,63 @@ void draw() {
 
 
 void mouseClicked() { 
+  //Ethan
   if (mouseY>=50) {
+    //vairables that will refer to specific grid value
     int i = int(map(mouseX, 0, width, 0, grid.length));
     int j = int(map(mouseY, 50, height, 0, grid.length));
+    //checks if its in flag mode
     if (flagmode && !grid[i][j].clicked) {
-      grid[i][j].flagged = !grid[i][j].flagged;
+      grid[i][j].flagged = !grid[i][j].flagged; //can turn off the flag
     } else {
-      if (!grid[i][j].bomb) {
-        if (firstclick) {
+      if (!grid[i][j].bomb) {//checks for no bomb
+        if (firstclick) { //if its the first click then do the clear pattern
           firstcli(i, j);
         }
-        if (grid[i][j].bombcount == 0 && flagmode == false) {
+        if (grid[i][j].bombcount == 0 && !flagmode ) { //clears stuff if its a blank square
           clear(i, j);
         }
-      } else if (!flagmode && !gameoverboo) {
-        gameoverboo = true;
+      } else if (!flagmode && !gameoverboo) { //If you havent lost yet and you hit a bomb
+        gameoverboo = true; //lose the game
         time  = timefinal;
       }
-      System.out.print(i +" "+ j);
-      grid[i][j].clicked=true;
+      System.out.print(i +" "+ j); //bug test
+      grid[i][j].clicked=true; //sets clicked if no flag mode
     }
     
   }
 }
 
-
+//Ethan
+//Method to deal with making a random clearing pattern
 void firstcli(int x, int y) {
   grid[x][y].isempty = true;
+  //does it 4 times
   for (int i = 0; i<4; i++) {
-    int nx = x;
-    int ny = y;
-    FloatList turn = new FloatList();
+    int nx = x; //stores values for temporary x
+    int ny = y; //stores value for temporary y
+    FloatList turn = new FloatList(); //stores various radian values for complete circle
     for (int m = 0; m < 4; m++) {
       turn.append(PI*m/2);
     }    
+    //keeps taking a random value of the list until empty
     while (turn.size() > 0) {
-      int valu = int(random(0, turn.size()));
-      float val = turn.get(valu);
-      nx += int(cos(val));
+      int valu = int(random(0, turn.size())); //picks random
+      float val = turn.get(valu); //gets value
+      //The sin and cos functions are able to equal to up, down, left, right
+      //This allows for proper random movement based on sized list
+      nx += int(cos(val)); 
       ny += int(sin(val));
+      //Assigns to specific value that cant be near a bomb
       grid[constrain(nx, 0, 9)][constrain(ny, 0, 9)].isempty = true; 
-      turn.remove(valu);
+      turn.remove(valu); //removes valu
     }
   }    
   for (int i = 0; i < bombcount; i++) {
     bombgenerate();
   }  
+  //Ethan
+  //Counts amount of bombs around it
   for (int i = 0; i < grid.length; i++) {
     for (int j = 0; j < grid.length; j++) {
       grid[i][j].count();
@@ -143,6 +157,8 @@ void gameover() {
   text("HIGHSCORES", 340, 220);
   fill(255);
   text("Retry", (width/4)*3, (height/4)-10);
+  //Ethan
+  //Allows for name entering 
   if (!entered) {
     text("Enter your Name:\n" + uname, 340, 600);
     text("___", 350, 650);
@@ -169,7 +185,7 @@ void gameover() {
     }
   }
   fill(200, 255, 200);
-
+   //
   if (mouseX > (width/4)-48 && mouseX < (width/4)+48 && mouseY > ((height/4)-10)-24 && mouseY < ((height/4)-10)+24) {
     fill(155); 
     if (mousePressed) {
@@ -199,20 +215,7 @@ void clear(int x, int y) {
     }
   }
 }
-
-
-//user interface for entering username
-/*void u(){
- // background(200);
- text("Enter your Name:\n" + uname, 150, 370);
- text("___", 150, 390);
- 
- //once user has input a 3 character name, stop asking for name
- if (uname != "" && charCount >=3)
- entered=true;
- gamestart = true; 
- }*/
-//method to deal with sorting the data
+ //Ethan
 void sort() {
   int i, j, flag = 1;    // set flag to 1 to start first pass
   int tempv;             // holding variable for score
@@ -251,6 +254,7 @@ void saveSortedData () {
   //loads it back into the text files
   saveStrings("scores.txt", temp);
 }
+//Ethan
 //Deals with the username being typed
 void keyTyped () {
   //used to collect username at the start of the program
