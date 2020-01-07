@@ -1,3 +1,11 @@
+/*
+these classes are generally very simple with minor differences.
+these differences are in the control tab and the action tab.
+
+to create a new button, add 1 to the id, and create a matching switch statement in the action tab for the corresponding button.
+this action will be run once.
+*/
+
 class GUItogglebutton extends GUIbutton {
 
   GUItogglebutton(int id, float x1, float y1, float x2, float y2, String label, int stroke, int fill, int textcolor, int strokealpha, int fillalpha, int textalpha, boolean changefill) { //changefill applies to if you want the color to change when its pressed
@@ -14,6 +22,7 @@ class GUItogglebutton extends GUIbutton {
     this.changefill = changefill;
   }
 
+  //actions to do based off of id, this allows multiple buttons to have the same function if needed
   void action() {
     switch(id) {
       case 0:
@@ -24,7 +33,7 @@ class GUItogglebutton extends GUIbutton {
 
   void control() {
     if (mousePressed) {
-      if (mouseX > location.x-size.x/2 && mouseX < location.x+size.x/2 && mouseY > location.y-size.y/2 && mouseY < location.y+size.y/2 && !clicked) {
+      if (mouseX > location.x-size.x/2 && mouseX < location.x+size.x/2 && mouseY > location.y-size.y/2 && mouseY < location.y+size.y/2 && !clicked) { //if mouse is within constraints
         clicked = true;
         if (activated)
           activated = false;
@@ -69,61 +78,6 @@ class GUImenubutton extends GUIbutton {
   }
 }
 
-class GUIslider extends GUI {
-  float slidervalue = 0.5;
-  PVector sliderstart, sliderend;
-  float sliderpos;
-  boolean canslide;
-
-  GUIslider(int id, float x1, float x2, float y, int size, int stroke, int fill) {
-    sliderstart = new PVector(x1, y);
-    sliderend = new PVector(x2, y);
-    sliderpos = (sliderend.x-sliderstart.x)*slidervalue+sliderstart.x;
-    this.size = size;
-    canslide = false;
-    this.stroke = stroke;
-    this.fill = fill;
-    this.id = id;
-  }
-
-  void control() {
-    if (mousePressed && mouseX > sliderstart.x && mouseX < sliderend.x && mouseY > sliderstart.y-size/2 && mouseY < sliderstart.y+size/2) {
-      sliderpos = mouseX;
-      canslide = true;
-    } else {
-
-      if (mouseX < sliderstart.x && canslide) {
-        slidervalue = 0;
-        sliderpos = sliderstart.x;
-      } else if (mouseX > sliderend.x && canslide) {
-        slidervalue = 1;
-        sliderpos = sliderend.x;
-      }
-
-      if (canslide && !mousePressed)
-        canslide = false;
-    }
-
-    if (canslide)
-      slidervalue = (sliderpos-sliderstart.x)/(sliderend.x-sliderstart.x);
-
-    action();
-  }
-
-  void action() {
-    switch(id) {
-    }
-  }
-
-  void show() {
-    stroke(stroke);
-    fill(fill);
-    line(sliderstart.x, sliderstart.y, sliderend.x, sliderend.y);
-    rect(sliderpos, sliderstart.y, size/4, size);
-    text("Value: "+slidervalue, 100, 100);
-  }
-}
-
 /*------------------
  PARENT CLASSES
  DO NOT CALL DIRECTLY
@@ -132,10 +86,11 @@ class GUIslider extends GUI {
 class GUIbutton extends GUI {
   PVector location, size;
   String label;
-  boolean changefill;
+  boolean changefill; //if the fill changes when the buttons state is changed
   boolean activated;
-  boolean clicked;
-
+  boolean clicked; //if the button is clicked
+  //the rest are just the name
+  
   GUIbutton() {
     activated = clicked = false;
   }
@@ -144,10 +99,12 @@ class GUIbutton extends GUI {
   }
 
   void show() {
+    //re-alligning button
     rectMode(CENTER);
     textAlign(CENTER, CENTER);
     stroke(stroke, strokealpha);
-
+    
+    //fill changing
     if (changefill)
       if (!activated)
         fill(fill, fillalpha);
@@ -155,7 +112,8 @@ class GUIbutton extends GUI {
         fill(0, 255, 0, fillalpha);
     else
       fill(fill, fillalpha);
-
+      
+      //if the mouse if over the button, change fill
     if (mouseX > location.x-size.x/2 && mouseX < location.x+size.x/2 && mouseY > location.y-size.y/2 && mouseY < location.y+size.y/2) {
 
       if (changefill)
@@ -166,6 +124,7 @@ class GUIbutton extends GUI {
       else
         fill(fill, 200-(255-fillalpha));
 
+      //if the button is pressed again, change fill more
       if (mousePressed)
         fill(fill, 155-(255-fillalpha));
     }

@@ -4,7 +4,7 @@ class grid {
   boolean revealed = false, flagged, bomb;
   boolean checked = false;
   boolean clicked = false, cleared = false, isempty=false;
-  
+
   int bombcount;
   grid() {
     flagged = false;
@@ -12,20 +12,20 @@ class grid {
   }
 
   void show() {
-    if (clicked && !flagged){
-      fill = color(155);
-    }
-    else if (clicked && flagged){
-      fill = color(200, 50, 50);
-    }
-    else if(!clicked){
-      fill = color(0);
-    }
-    fill(fill);
+    fill(155);
     square(reallocation.x, reallocation.y, 64);
-    fill(0);
-    if (this.bombcount != 0)
-         text(""+bombcount, reallocation.x+32, reallocation.y+32);
+    if (!clicked) {
+      image(tile, reallocation.x, reallocation.y);
+    } else {
+      if (flagged) {
+        imageMode(CENTER);
+        image(flag, reallocation.x+32, reallocation.y+32);
+        imageMode(CORNER);
+      }
+      fill(0);
+      if (this.bombcount != 0)
+        text(""+bombcount, reallocation.x+32, reallocation.y+32);
+    }
   }
 
   void count() {
@@ -65,20 +65,19 @@ class empty extends grid {
 
 
 void bombgenerate() {
-  
+
   PVector random = new PVector((int)random(grid.length), (int)random(grid.length));
   if (!grid[(int)random.x][(int)random.y].bomb && !grid[(int)random.x][(int)random.y].isempty)
-    if (canputbomb(int(random.x), int(random.y))){
+    if (canputbomb(int(random.x), int(random.y))) {
       grid[(int)random.x][(int)random.y] = new bomb(random.x, random.y);
-    }          
-  else
-    bombgenerate();
+    } else
+      bombgenerate();
 }
-boolean canputbomb(int x, int y){
+boolean canputbomb(int x, int y) {
   boolean can = true;
   for (int i =0; i <3; i++)
     for (int j = 0; j<3; j++)
-      if (grid[constrain(x-1+i, 0, 9)][constrain(y-1+j, 0, 9)].isempty || grid[x][y].isempty){
+      if (grid[constrain(x-1+i, 0, 9)][constrain(y-1+j, 0, 9)].isempty || grid[x][y].isempty) {
         can = false;
       }
   return can;
