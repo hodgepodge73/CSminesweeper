@@ -247,7 +247,7 @@ void sort() {
 //Method to deal with saving it
 void saveSortedData () {
   //put data from the users name and score
-  if (times[4] < time) {
+  if (times[4] > time) {
     temp[4] = uname;
     temp[9] = str(time);
   }
