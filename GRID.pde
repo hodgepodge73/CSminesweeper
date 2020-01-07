@@ -12,20 +12,20 @@ class grid {
   }
 
   void show() {
-    fill(0);
     if (clicked && !flagged){
-      fill(fill);
+      fill = color(155);
     }
     else if (clicked && flagged){
-      fill(200, 50, 50);
+      fill = color(200, 50, 50);
     }
-    if (isempty){
-      //fill(255, 255,100);
+    else if(!clicked){
+      fill = color(0);
     }
+    fill(fill);
     square(reallocation.x, reallocation.y, 64);
     fill(0);
     if (this.bombcount != 0)
-      text(""+bombcount, reallocation.x+32, reallocation.y+32);
+         text(""+bombcount, reallocation.x+32, reallocation.y+32);
   }
 
   void count() {
