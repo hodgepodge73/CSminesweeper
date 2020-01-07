@@ -1,6 +1,7 @@
 class grid {
   PVector reallocation, gridlocation;
   int fill;
+  //list of booleans
   boolean revealed = false, flagged, bomb;
   boolean checked = false;
   boolean clicked = false, cleared = false, isempty=false;
@@ -14,6 +15,7 @@ class grid {
   void show() {
     fill(155);
     square(reallocation.x, reallocation.y, 64);
+    //Ethan
     if (!clicked) {
       image(tile, reallocation.x, reallocation.y);
     } else {
@@ -22,6 +24,7 @@ class grid {
         text(""+bombcount, reallocation.x+32, reallocation.y+32);
     }
     if (flagged) {
+        //
         imageMode(CENTER);
         image(flag, reallocation.x+32, reallocation.y+32);
         imageMode(CORNER);
@@ -51,7 +54,8 @@ class empty extends grid {
     fill = 155;
     bomb = false;
   }
-
+  //Ethan
+  //Counts bombs around it
   void count () {
     this.bombcount = 0;
     for ( int j = 0; j <3; j++)
@@ -73,6 +77,8 @@ void bombgenerate() {
     } else
       bombgenerate();
 }
+// Ethan
+// checks if it can put bomb in a specific spot
 boolean canputbomb(int x, int y) {
   boolean can = true;
   for (int i =0; i <3; i++)
