@@ -17,15 +17,15 @@ class grid {
     if (!clicked) {
       image(tile, reallocation.x, reallocation.y);
     } else {
-      if (flagged) {
+      fill(0);
+      if (this.bombcount != 0 && clicked && !flagged)
+        text(""+bombcount, reallocation.x+32, reallocation.y+32);
+    }
+    if (flagged) {
         imageMode(CENTER);
         image(flag, reallocation.x+32, reallocation.y+32);
         imageMode(CORNER);
       }
-      fill(0);
-      if (this.bombcount != 0)
-        text(""+bombcount, reallocation.x+32, reallocation.y+32);
-    }
   }
 
   void count() {
