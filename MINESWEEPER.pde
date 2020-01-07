@@ -2,6 +2,7 @@ grid grid[][] = new grid[10][10];
 boolean firstclick = true;
 boolean gameoverboo = false;
 boolean flagmode = false;
+int time = 0;
 void setup() {
   size(642, 692);  
   strokeWeight(2);
@@ -23,12 +24,22 @@ void draw() {
 
     fill(255);
     text("UI SPACE", width/4, 20);
+    fill(255);
+    textSize(12);
+    if ((time/60)%60<10){
+      text("Time: " + time/3600 + ":0" + (time/60)%60, 330, 40);
+    }
+    else {
+      text("Time: " + time/3600 + ":" + (time/60)%60, 330, 40);
+    }
+    textSize(48);
     GUI[0].control();
     GUI[0].show();
     if (gameoverboo == true) {
       gameover();
     }
   }
+  time++;
 }
 
 
@@ -40,17 +51,19 @@ void mouseClicked() {
     if (flagmode){
       grid[i][j].flagged = true;
     }
-    if (!grid[i][j].bomb) {
-      if (firstclick) {
-        firstcli(i, j);
+      else{
+      if (!grid[i][j].bomb) {
+        if (firstclick) {
+          firstcli(i, j);
+        }
+        if (grid[i][j].bombcount == 0 && flagmode == false) {
+          clear(i, j);
+        }
+      } else if (!flagmode) {
+        gameoverboo = true;
       }
-      if (grid[i][j].bombcount == 0 && flagmode == false) {
-        clear(i, j);
-      }
-    } else if (!flagmode) {
-      gameoverboo = true;
+
     }
-    
     System.out.print(i +" "+ j);
     grid[i][j].clicked=true;
   }
@@ -103,6 +116,7 @@ void gameover() {
   if (mouseX > ((width/4)*3)-48 && mouseX < ((width/4)*3)+48 && mouseY > ((height/2)-10)-24 && mouseY < ((height/2)-10)+24) {
     fill(155); 
     if (mousePressed) {
+      restart();
       //Mouse input works. Still need to implement a game restart (reset all variables)
     }
   }
@@ -121,4 +135,5 @@ void clear(int x, int y) {
     }
   }
 }
+
 //adding a comment on github
