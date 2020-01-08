@@ -305,6 +305,19 @@ background(0);
     } else {
       text(uname+" - "+time/3600 + ":" + (time/60)%60, 340, 650);
     }
+    saveSortedData();
+    String [] data = loadStrings("scores.txt"); //puts the txt data into the data array
+    temp = new String[data.length];
+    for (int a=0; a < data.length/2; a++) {
+        names[a]=data[a];
+      }
+      //load data into scores array
+      int b=0;
+    for (int a=data.length/2; a < data.length; a++) {
+      times[b]=int(data[a]);
+      b++;
+    }  
+    sort();
   }
   fill(200, 255, 200);
   saveSortedData();
