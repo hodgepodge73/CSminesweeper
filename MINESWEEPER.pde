@@ -258,7 +258,7 @@ void keyTyped () {
   }
 }
 
-//Aidan
+
 //checks if player has won game
 boolean wincheck() {
  for (int i = 0; i < 10; i++)//for statements count through all spaces and  check if they are not clicked and not a bomb
@@ -271,7 +271,7 @@ boolean wincheck() {
 return true;
 
 }
-//Carter: reused aidans code to display a win screen exact same thing as game over screen 
+//Carter displays similar win screen to lose screen
 void wingame () {
   
 background(0);
