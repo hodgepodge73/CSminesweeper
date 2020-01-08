@@ -1,4 +1,4 @@
-import processing.sound.*; //MUST HAVE SOUND LIBRARY INSTALLED IN ORDER TO USE THIS
+import processing.sound.*; //MUST HAVE SOUND LIBRARY INSTALLED IN ORDER TO USE THIS Carter
 SoundFile bgm; //MAKES BACKGROUND MUSIC
 grid grid[][] = new grid[10][10];
 boolean firstclick = true;
@@ -180,7 +180,7 @@ void gameover() {
   }
   //displays own score
   if (entered) {
-    fill(250, 155, 100);
+    fill(150, 250, 100);
     if ((time/60)%60<10) {
       text(uname+" - "+time/3600 + ":0" + (time/60)%60, 340, 650);
     } else {
@@ -261,7 +261,7 @@ void keyTyped () {
 //Aidan
 //checks if player has won game
 boolean wincheck() {
- for (int i = 0; i < 10; i++)
+ for (int i = 0; i < 10; i++)//for statements count through all spaces and  check if they are not clicked and not a bomb
   for (int j = 0; j < 10; j++)
     if (!grid[i][j].clicked && !grid[i][j].bomb)
       return false;
@@ -271,13 +271,13 @@ boolean wincheck() {
 return true;
 
 }
-
+//Carter: reused aidans code to display a win screen exact same thing as game over screen 
 void wingame () {
   
 background(0);
   fill(255);
   textSize(48);
-  text("You Win", width/2, (height/4)-100);
+  text("You Win!", width/2, (height/4)-100);
   text("HIGHSCORES", 340, 220);
   //Ethan
   //Allows for name entering 
