@@ -1,10 +1,11 @@
 /*
-these classes are generally very simple with minor differences.
-these differences are in the control tab and the action tab.
-
-to create a new button, add 1 to the id, and create a matching switch statement in the action tab for the corresponding button.
-this action will be run once.
-*/
+Aidan
+ these classes are generally very simple with minor differences.
+ these differences are in the control tab and the action tab.
+ 
+ to create a new button, add 1 to the id, and create a matching switch statement in the action tab for the corresponding button.
+ this action will be run once.
+ */
 
 class GUItogglebutton extends GUIbutton {
 
@@ -25,7 +26,7 @@ class GUItogglebutton extends GUIbutton {
   //actions to do based off of id, this allows multiple buttons to have the same function if needed
   void action() {
     switch(id) {
-      case 0:
+    case 0:
       flagmode = activated;
       break;
     }
@@ -63,6 +64,14 @@ class GUImenubutton extends GUIbutton {
 
   void action() {
     switch(id) {
+    case 0:
+      //restart button
+      restart();
+      break;
+    case 1:
+      //exit button on endscreen
+      exit();
+      break;
     }
   }
 
@@ -88,9 +97,8 @@ class GUIbutton extends GUI {
   String label;
   boolean changefill; //if the fill changes when the buttons state is changed
   boolean activated;
-  boolean clicked; //if the button is clicked
   //the rest are just the name
-  
+
   GUIbutton() {
     activated = clicked = false;
   }
@@ -103,7 +111,7 @@ class GUIbutton extends GUI {
     rectMode(CENTER);
     textAlign(CENTER, CENTER);
     stroke(stroke, strokealpha);
-    
+
     //fill changing
     if (changefill)
       if (!activated)
@@ -112,8 +120,8 @@ class GUIbutton extends GUI {
         fill(0, 255, 0, fillalpha);
     else
       fill(fill, fillalpha);
-      
-      //if the mouse if over the button, change fill
+
+    //if the mouse if over the button, change fill
     if (mouseX > location.x-size.x/2 && mouseX < location.x+size.x/2 && mouseY > location.y-size.y/2 && mouseY < location.y+size.y/2) {
 
       if (changefill)
@@ -139,7 +147,8 @@ class GUI {
   int stroke, fill;
   int textcolor;
   int strokealpha, fillalpha, textalpha;
-  int id;
+  int id; //id of button action
+  boolean clicked; //if the button is clicked
 
   GUI() {
   }

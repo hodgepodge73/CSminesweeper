@@ -5,7 +5,7 @@ class grid {
   boolean revealed = false, flagged, bomb;
   boolean checked = false;
   boolean clicked = false, cleared = false, isempty=false;
-
+  
   int bombcount;
   grid() {
     flagged = false;
@@ -18,24 +18,27 @@ class grid {
     //Ethan
     if (!clicked) {
       image(tile, reallocation.x, reallocation.y);
-    } else {
-      fill(0);
-      if (this.bombcount != 0 && clicked && !flagged)
-        text(""+bombcount, reallocation.x+32, reallocation.y+32);
-    }
-    if (flagged) {
-        //
+      if (flagged) {
         imageMode(CENTER);
         image(flag, reallocation.x+32, reallocation.y+32);
         imageMode(CORNER);
       }
+    } else {
+      if (flagged)
+        flagged = false;
+      fill(0);
+      if (this.bombcount != 0 && clicked && !flagged)
+        text(""+bombcount, reallocation.x+32, reallocation.y+32);
+    }
   }
 
   void count() {
   }
 }
 
-int bombcount = 30;
+int bombcount = 30; //amount of bombs in generation
+
+//grid classes by Aidan
 class bomb extends grid {
 
   bomb(float x, float y) {
@@ -67,9 +70,9 @@ class empty extends grid {
   }
 }
 
-
+//Aidan
+//generates new bombfield
 void bombgenerate() {
-
   PVector random = new PVector((int)random(grid.length), (int)random(grid.length));
   if (!grid[(int)random.x][(int)random.y].bomb && !grid[(int)random.x][(int)random.y].isempty)
     if (canputbomb(int(random.x), int(random.y))) {

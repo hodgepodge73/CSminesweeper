@@ -57,9 +57,6 @@ void draw() {
     for (int i = 0; i < grid.length; i++)
       for (int j = 0; j < grid.length; j++)
         grid[i][j].show();
-
-    fill(255);
-    text("UI SPACE", width/4, 20);
     fill(255);
     textSize(12);
     if ((timefinal/60)%60<10) {
@@ -68,8 +65,10 @@ void draw() {
       text("Time: " + timefinal/3600 + ":" + (timefinal/60)%60, 330, 40);
     }
     textSize(48);
-    GUI[0].control();
-    GUI[0].show();
+    for (int i = 0; i < 2; i++) {
+      GUI[i].control();
+      GUI[i].show();
+    }
     if (gameoverboo == true) {
       gameover();
     }
@@ -103,7 +102,6 @@ void mouseClicked() {
       System.out.print(i +" "+ j); //bug test
       grid[i][j].clicked=true; //sets clicked if no flag mode
     }
-    
   }
 }
 
@@ -153,10 +151,7 @@ void gameover() {
   fill(255);
   textSize(48);
   text("Game Over", width/2, (height/4)-100);
-  text("Exit", width/4, (height/4)-10);
   text("HIGHSCORES", 340, 220);
-  fill(255);
-  text("Retry", (width/4)*3, (height/4)-10);
   //Ethan
   //Allows for name entering 
   if (!entered) {
@@ -185,20 +180,10 @@ void gameover() {
     }
   }
   fill(200, 255, 200);
-   //
-  if (mouseX > (width/4)-48 && mouseX < (width/4)+48 && mouseY > ((height/4)-10)-24 && mouseY < ((height/4)-10)+24) {
-    fill(155); 
-    if (mousePressed) {
-      exit();
-    }
-  }
 
-  if (mouseX > ((width/4)*3)-48 && mouseX < ((width/4)*3)+48 && mouseY > ((height/4)-10)-24 && mouseY < ((height/4)-10)+24) {
-    fill(155); 
-    if (mousePressed) {
-      restart();
-      //Mouse input works. Still need to implement a game restart (reset all variables)
-    }
+  for (int i = 2; i < 4; i++) {
+    GUI[i].control();
+    GUI[i].show();
   }
 }
 
@@ -215,7 +200,7 @@ void clear(int x, int y) {
     }
   }
 }
- //Ethan
+//Ethan
 void sort() {
   int i, j, flag = 1;    // set flag to 1 to start first pass
   int tempv;             // holding variable for score
@@ -265,6 +250,7 @@ void keyTyped () {
   }
 }
 
+//Aidan
 //checks if player has won game
 boolean wincheck() {
   for (int i = 0; i < 10; i++)
