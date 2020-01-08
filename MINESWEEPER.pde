@@ -21,8 +21,8 @@ void setup() {
   //Ethan
   String [] data = loadStrings("scores.txt"); //puts the txt data into the data array
   temp = new String[data.length]; // sets the temp array to the length of the data array
+
   
-  //
   size(642, 692);  
   strokeWeight(2);
   stroke(0);
@@ -56,8 +56,8 @@ void draw() {
   background(155);  
   if (loaded) {
 
-    if (wincheck())
-      wingame();
+    if (wincheck() ==  true)
+      win();
 
     rectMode(CORNER);
     stroke(0);
@@ -151,7 +151,7 @@ void firstcli(int x, int y) {
 }
 void win() {
   //check for win
-  saveSortedData();
+  wingame();
 }
 void gameover() {
   background(0);
@@ -261,12 +261,50 @@ void keyTyped () {
 //checks if player has won game
 boolean wincheck() {
   for (int i = 0; i < 10; i++)
-    for (int j = 0; j < 10; j++)
-      if (!grid[i][j].clicked || !grid[i][j].bomb)
-        return false;
-  return true;
+  for (int j = 0; j < 10; j++)
+    if (!grid[i][j].clicked && !grid[i][j].bomb)
+      return false;
+return true;
 }
 
 void wingame () {
+background(0);
+  fill(255);
+  textSize(48);
+  text("Game Over", width/2, (height/4)-100);
+  text("HIGHSCORES", 340, 220);
+  //Ethan
+  //Allows for name entering 
+  if (!entered) {
+    text("Enter your Name:\n" + uname, 340, 600);
+    text("___", 350, 650);
+
+    //once user has input a 3 character name, stop asking for name
+    if (uname != "" && charCount >=3)
+      entered=true;
+  }
+  for (int a=0; a < names.length; a++) {
+    if ((times[a]/60)%60<10) {
+      text(names[a]+" - "+ times[a]/3600 + ":0" + (times[a]/60)%60, 350, 60*a+280);
+    } else {
+      text(names[a]+" - "+ times[a]/3600 + ":" + (times[a]/60)%60, 350, 60*a+280);
+    }
+    //text(names[a]+" - "+times[a], 350, 12*a+330);
+  }
+  //displays own score
+  if (entered) {
+    fill(250, 155, 100);
+    if ((time/60)%60<10) {
+      text(uname+" - "+time/3600 + ":0" + (time/60)%60, 340, 650);
+    } else {
+      text(uname+" - "+time/3600 + ":" + (time/60)%60, 340, 650);
+    }
+  }
+  fill(200, 255, 200);
   saveSortedData();
+  for (int i = 2; i < 4; i++) {
+    GUI[i].control();
+    GUI[i].show();
+  }
 }
+
