@@ -22,8 +22,6 @@ void setup() {
   //Ethan
   String [] data = loadStrings("scores.txt"); //puts the txt data into the data array
   temp = new String[data.length]; // sets the temp array to the length of the data array
-
-  
   size(642, 692);  
   strokeWeight(2);
   stroke(0);
@@ -82,8 +80,6 @@ void draw() {
     timefinal++;
   }
 }
-
-
 
 void mouseClicked() { 
   //Ethan
@@ -189,7 +185,6 @@ void gameover() {
     }
   }
   fill(200, 255, 200);
-
   for (int i = 2; i < 4; i++) {
     GUI[i].control();
     GUI[i].show();
