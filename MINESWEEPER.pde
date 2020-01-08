@@ -56,9 +56,7 @@ void draw() {
   background(155);  
   if (loaded) {
 
-    if (wincheck() ==  true)
-      win();
-
+    
     rectMode(CORNER);
     stroke(0);
     for (int i = 0; i < grid.length; i++)
@@ -79,6 +77,9 @@ void draw() {
     if (gameoverboo == true) {
       gameover();
     }
+    if (wincheck() ==  true)
+      win();
+
     timefinal++;
   }
 }
@@ -260,18 +261,23 @@ void keyTyped () {
 //Aidan
 //checks if player has won game
 boolean wincheck() {
-  for (int i = 0; i < 10; i++)
+ for (int i = 0; i < 10; i++)
   for (int j = 0; j < 10; j++)
     if (!grid[i][j].clicked && !grid[i][j].bomb)
       return false;
+      if (time == 0){
+        time = timefinal;
+      }
 return true;
+
 }
 
 void wingame () {
+  
 background(0);
   fill(255);
   textSize(48);
-  text("Game Over", width/2, (height/4)-100);
+  text("You Win", width/2, (height/4)-100);
   text("HIGHSCORES", 340, 220);
   //Ethan
   //Allows for name entering 
@@ -307,4 +313,5 @@ background(0);
     GUI[i].show();
   }
 }
+
 
