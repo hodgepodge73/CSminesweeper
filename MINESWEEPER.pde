@@ -1,3 +1,5 @@
+import processing.sound.*; //MUST HAVE SOUND LIBRARY INSTALLED IN ORDER TO USE THIS
+SoundFile bgm; //MAKES BACKGROUND MUSIC
 grid grid[][] = new grid[10][10];
 boolean firstclick = true;
 boolean gameoverboo = false;
@@ -19,7 +21,7 @@ void setup() {
   //Ethan
   String [] data = loadStrings("scores.txt"); //puts the txt data into the data array
   temp = new String[data.length]; // sets the temp array to the length of the data array
-
+  
   //
   size(642, 692);  
   strokeWeight(2);
@@ -28,6 +30,11 @@ void setup() {
   textAlign(CENTER, CENTER);
   textSize(48);
   thread("load");
+  bgm = new SoundFile(this, "music.wav");
+  //sets original playrate @ 50%
+  bgm.rate(.5);
+  //Makes sure that it loops continuously
+  bgm.loop();
   //Ethan
   //initialize the size of the name and score arrays
   names = new String[data.length/2];
@@ -210,7 +217,7 @@ void sort() {
   for (i = 1; i <= size && flag==1; i++) {
     flag = 0;
     for (j=0; j < (size -1); j++) {
-      if (times[j+1] > times[j]) {     // ascending order simply changes to <{ 
+      if (times[j+1] < times[j]) {     // ascending order simply changes to <{ 
         tempv = times[j];             // swap score elements
         times[j] = times[j+1];
         times[j+1] = tempv;
