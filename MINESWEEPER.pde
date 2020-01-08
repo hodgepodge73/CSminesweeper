@@ -1,11 +1,12 @@
 import processing.sound.*; //MUST HAVE SOUND LIBRARY INSTALLED IN ORDER TO USE THIS Carter
 SoundFile bgm; //MAKES BACKGROUND MUSIC
-grid grid[][] = new grid[10][10];
-boolean firstclick = true;
-boolean gameoverboo = false;
-boolean flagmode = false;
-int time = 0; 
-int timefinal;
+grid grid[][] = new grid[10][10]; //makes grid
+boolean firstclick = true; //checks if clicked
+boolean gameoverboo = false; //checks for game over
+boolean flagmode = false; // for if in flag mode
+int time = 0;  //timer at end
+int timefinal; //timer
+boolean newsort = false; // score sort at end
 
 //Ethan
 String uname="";  //user's name starts blank
@@ -55,8 +56,6 @@ void setup() {
 void draw() {
   background(155);  
   if (loaded) {
-
-    
     rectMode(CORNER);
     stroke(0);
     for (int i = 0; i < grid.length; i++)
@@ -137,7 +136,8 @@ void firstcli(int x, int y) {
       grid[constrain(nx, 0, 9)][constrain(ny, 0, 9)].isempty = true; 
       turn.remove(valu); //removes valu
     }
-  }    
+  }  
+  //generates bombs based on bombcount
   for (int i = 0; i < bombcount; i++) {
     bombgenerate();
   }  
@@ -148,12 +148,13 @@ void firstcli(int x, int y) {
       grid[i][j].count();
     }
   } 
-  firstclick = false;
+  firstclick = false; //doesnt let you click again
 }
 void win() {
   //check for win
   wingame();
 }
+//deals with game over screen and score display
 void gameover() {
   background(0);
   fill(255);
@@ -194,7 +195,7 @@ void gameover() {
     GUI[i].show();
   }
 }
-
+//If its a blank square show all empty, recursively
 void clear(int x, int y) {
   if (grid[x][y].bombcount ==0 && !grid[x][y].bomb) {
     grid[x][y].checked = true;
@@ -209,6 +210,7 @@ void clear(int x, int y) {
   }
 }
 //Ethan
+//method to deal with sorting 
 void sort() {
   int i, j, flag = 1;    // set flag to 1 to start first pass
   int tempv;             // holding variable for score
@@ -258,7 +260,7 @@ void keyTyped () {
   }
 }
 
-
+//Aidan
 //checks if player has won game
 boolean wincheck() {
  for (int i = 0; i < 10; i++)//for statements count through all spaces and  check if they are not clicked and not a bomb
@@ -271,7 +273,7 @@ boolean wincheck() {
 return true;
 
 }
-//Carter displays similar win screen to lose screen
+//Carter: reused aidans code to display a win screen exact same thing as game over screen 
 void wingame () {
   
 background(0);
@@ -305,19 +307,22 @@ background(0);
     } else {
       text(uname+" - "+time/3600 + ":" + (time/60)%60, 340, 650);
     }
-    saveSortedData();
-    String [] data = loadStrings("scores.txt"); //puts the txt data into the data array
-    temp = new String[data.length];
-    for (int a=0; a < data.length/2; a++) {
-        names[a]=data[a];
-      }
-      //load data into scores array
-      int b=0;
-    for (int a=data.length/2; a < data.length; a++) {
-      times[b]=int(data[a]);
-      b++;
-    }  
-    sort();
+    if (!newsort){
+      saveSortedData();
+      String [] data = loadStrings("scores.txt"); //puts the txt data into the data array
+      temp = new String[data.length];
+      for (int a=0; a < data.length/2; a++) {
+          names[a]=data[a];
+        }
+        //load data into scores array
+        int b=0;
+      for (int a=data.length/2; a < data.length; a++) {
+        times[b]=int(data[a]);
+        b++;
+      }  
+      sort();
+      newsort = true;
+    }
   }
   fill(200, 255, 200);
   saveSortedData();
@@ -326,5 +331,3 @@ background(0);
     GUI[i].show();
   }
 }
-
-
